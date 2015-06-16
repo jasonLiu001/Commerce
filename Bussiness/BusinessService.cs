@@ -1,6 +1,6 @@
 ﻿using DataAccess;
 using Model;
-using Model.Common;
+using Model.DataTemplate;
 using System;
 using System.Collections.Generic;
 using System.Linq;

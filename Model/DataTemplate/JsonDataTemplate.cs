@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Common
+namespace Model.DataTemplate
 {
     public class JsonDataTemplate<T> where T: new()
     {
