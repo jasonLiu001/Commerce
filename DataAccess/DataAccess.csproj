@@ -40,10 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArticleDataAccesser.cs" />
+    <Compile Include="DataService.cs" />
     <Compile Include="Helper\SQLHelper.cs" />
     <Compile Include="Helper\Utility.cs" />
-    <Compile Include="HotWordsDataAccesser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

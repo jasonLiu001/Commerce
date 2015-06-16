@@ -9,34 +9,42 @@ using System.Web.Http;
 
 namespace Web.Controllers
 {
-    public class HotWordsController : ApiController
+    public class ServicesController : ApiController
     {
-        HotWordsBussiness hotWordsBussiness = new HotWordsBussiness();
-        // GET: api/GetHotWords
+        BusinessService businessService = new BusinessService();
+
+        // GET: api/Services
         public string GetHotWords()
         {
-            var hotWords = hotWordsBussiness.GetHotWords();
+            var hotWords = businessService.GetHotWords();
             var hotWordsList = JsonConvert.SerializeObject(hotWords);
             return hotWordsList;
         }
 
-        // GET: api/HotWords/5
+        public string GetArticles()
+        {
+            var articleList = businessService.GetArticleList();
+            var strArticleList = JsonConvert.SerializeObject(articleList);
+            return strArticleList;
+        }
+
+        // GET: api/Services/5
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST: api/HotWords
+        // POST: api/Services
         public void Post([FromBody]string value)
         {
         }
 
-        // PUT: api/HotWords/5
+        // PUT: api/Services/5
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE: api/HotWords/5
+        // DELETE: api/Services/5
         public void Delete(int id)
         {
         }
