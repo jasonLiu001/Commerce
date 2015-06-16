@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Article.cs" />
+    <Compile Include="Common\JsonDataTemplate.cs" />
     <Compile Include="Company.cs" />
     <Compile Include="HotWord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

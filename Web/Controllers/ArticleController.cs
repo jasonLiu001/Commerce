@@ -13,11 +13,12 @@ namespace Web.Controllers
     public class ArticleController : ApiController
     {
         ArticleBussiness articleBussiness = new ArticleBussiness();
+
         /// <summary>
         /// 获取文章列表
         /// </summary>
         /// <returns></returns>
-        public string GetArticleList()
+        public string GetArticles()
         {
             var articleList = articleBussiness.GetArticleList();
             var strArticleList = JsonConvert.SerializeObject(articleList);
@@ -27,10 +28,8 @@ namespace Web.Controllers
         // GET: api/Article/5
         public string Get(int id)
         {
-            return "value";
+            return "1";
         }
-
-
 
         // POST: api/Article
         public void Post([FromBody]string value)

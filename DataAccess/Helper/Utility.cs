@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -77,5 +78,59 @@ namespace DataAccess.Helper
         }
 
         #endregion
+
+        #region DB Common Operation
+        public static List<T> GetListFromDB<T>(string[] selectedColumns, string sql) where T : new()
+        {
+            List<T> list = new List<T>();           
+            DataSet ds = SqlHelper.ExecuteDataset(SqlHelper.ConnStr, CommandType.Text, sql);
+            DataTable dt = ds.Tables[0];
+            foreach (DataRow dr in dt.Rows)
+            {
+                var obj = new T();
+                PropertyInfo[] fields = obj.GetType().GetProperties();
+                foreach (string columnName in selectedColumns)
+                {
+                    foreach (var field in fields)
+                    {
+                        //如果是public属性并且是可写的
+                        if (field.CanWrite)
+                        {
+                            //字段名和列名相同
+                            if (field.Name.Equals(columnName, StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                //判断字段类型
+                                if (field.PropertyType == typeof(DateTime))
+                                {
+                                    field.SetValue(obj, Utility.GetColumnDateTimeValue(dr, columnName));
+                                }
+                                else if (field.PropertyType == typeof(string))
+                                {
+                                    field.SetValue(obj, Utility.GetColumnValue(dr, columnName));
+                                }
+                                else if (field.PropertyType == typeof(int))
+                                {
+                                    field.SetValue(obj, Utility.GetColumnIntValue(dr, columnName));
+                                }
+                                else if (field.PropertyType == typeof(decimal))
+                                {
+                                    field.SetValue(obj, Utility.GetColumnDecimalValue(dr, columnName));
+                                }
+                                else if (field.PropertyType == typeof(double))
+                                {
+                                    field.SetValue(obj, Utility.GetColumnDoubleValue(dr, columnName));
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                list.Add(obj);
+            }
+
+            return list;
+        }
+        #endregion       
     }
 }
