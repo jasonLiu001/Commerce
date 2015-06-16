@@ -14,18 +14,18 @@ namespace Web.Controllers
         BusinessService businessService = new BusinessService();
 
         // GET: api/Services
-        public string GetHotWords()
+        public string GetCompanyGroupByHotWords()
         {
-            var hotWords = businessService.GetHotWords();
-            var hotWordsList = JsonConvert.SerializeObject(hotWords);
-            return hotWordsList;
+            var list = businessService.GetCompanyGroupByHotWords();
+            var jsonData = JsonConvert.SerializeObject(list);
+            return jsonData;
         }
 
         public string GetArticles()
         {
-            var articleList = businessService.GetArticleList();
-            var strArticleList = JsonConvert.SerializeObject(articleList);
-            return strArticleList;
+            var list = businessService.GetArticleList();
+            var jsonData = JsonConvert.SerializeObject(list);
+            return jsonData;
         }
 
         // POST: api/Services

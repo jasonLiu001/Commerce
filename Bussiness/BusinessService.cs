@@ -25,15 +25,31 @@ namespace Bussiness
             return list;
         }
 
-        public List<JsonDataTemplate<HotWord>> GetHotWords()
+        public List<JsonDataTemplate<CommonDataEntity>> GetCompanyGroupByHotWords()
         {
-            var list = new List<JsonDataTemplate<HotWord>>();
-            var jsonData = new JsonDataTemplate<HotWord>();
+            var list = new List<JsonDataTemplate<CommonDataEntity>>();
             var hotWordsList = dataService.GetHotWordsList();
-            jsonData.name = "大数据";
-            jsonData.type = "root";
-            jsonData.children = hotWordsList;
-            list.Add(jsonData);
+
+            #region Get Common
+            var companyList = dataService.GetCompanyList();
+            var data = new List<CommonDataEntity>();
+            foreach (var company in companyList)
+            {
+                var commonData = new CommonDataEntity();
+                commonData.name = company.company_name;
+                commonData.type = "company";
+                data.Add(commonData);
+            }
+            #endregion
+
+            foreach (var hotWord in hotWordsList)
+            {
+                var jsonData = new JsonDataTemplate<CommonDataEntity>();
+                jsonData.name = hotWord.hotword;
+                jsonData.type = "root";
+                jsonData.children = data;
+                list.Add(jsonData);
+            }
             return list;
         }
     }

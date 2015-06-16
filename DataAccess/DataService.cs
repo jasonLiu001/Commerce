@@ -19,8 +19,15 @@ namespace DataAccess
 
         public List<HotWord> GetHotWordsList()
         {
-            var sql = "select hotword from original_hotword";
-            var list = Utility.GetListFromDB<HotWord>(new string[] { "hotword" }, sql);
+            var sql = "select id,hotword from original_hotword";
+            var list = Utility.GetListFromDB<HotWord>(new string[] { "id","hotword" }, sql);
+            return list;
+        }
+
+        public List<Company> GetCompanyList()
+        {
+            var sql = "select id,company_name,company_name_short,company_boss from original_company";
+            var list = Utility.GetListFromDB<Company>(new string[] { "id","company_name", "company_name_short", "company_boss" }, sql);
             return list;
         }
     }

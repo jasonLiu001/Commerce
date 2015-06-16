@@ -12,4 +12,10 @@ namespace Model.DataTemplate
         public string type { get; set; }
         public List<T> children { get; set; }
     }
+
+    public class CommonDataEntity
+    {
+        public string name { get; set; }
+        public string type { get; set; }
+    }
 }
