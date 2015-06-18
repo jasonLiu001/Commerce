@@ -30,7 +30,7 @@ namespace Bussiness
             var list = new List<JsonDataTemplate<CommonDataEntity>>();
             var hotWordsList = dataService.GetHotWordsList();
 
-            #region Get Common
+            #region Get Common Data
             var companyList = dataService.GetCompanyList();
             var data = new List<CommonDataEntity>();
             foreach (var company in companyList)

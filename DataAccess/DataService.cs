@@ -12,7 +12,7 @@ namespace DataAccess
     {
         public List<Article> GetArticleList()
         {
-            var sql = "select top 10 * from original_news";
+            var sql = "select top 10 title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left(content,50) from original_news";
             var list = Utility.GetListFromDB<Article>(new string[] { "title", "site_name", "url", "media_type", "polarity", "publish_date", "same_doc_count", "address", "content" }, sql);
             return list;
         }
