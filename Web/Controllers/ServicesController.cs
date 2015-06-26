@@ -13,7 +13,7 @@ namespace Web.Controllers
     {
         BusinessService businessService = new BusinessService();
 
-        // GET: api/Services
+        // GET: api/Services/GetCompanyGroupByHotWords
         public string GetCompanyGroupByHotWords()
         {
             var list = businessService.GetCompanyGroupByHotWords();

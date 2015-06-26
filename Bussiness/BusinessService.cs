@@ -18,7 +18,7 @@ namespace Bussiness
             var list = new List<JsonDataTemplate<Article>>();
             var jsonData = new JsonDataTemplate<Article>();
             var articleList = dataService.GetArticleList();
-            jsonData.name = "大数据";
+            jsonData.name = "文章列表";
             jsonData.type = "root";
             jsonData.children = articleList;
             list.Add(jsonData);
