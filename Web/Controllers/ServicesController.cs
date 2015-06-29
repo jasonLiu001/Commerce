@@ -1,4 +1,5 @@
 ﻿using Bussiness;
+using Model.Pagination;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,16 @@ namespace Web.Controllers
         }
 
         // GET: api/Services/GetArticles
-        public string GetArticles()
+        public string GetArticlesWithoutPagination()
         {
             var list = businessService.GetArticleList();
+            var jsonData = JsonConvert.SerializeObject(list);
+            return jsonData;
+        }
+
+        public string GetArticles([FromUri] PaginationParams urlParams)
+        {
+            var list = businessService.GetArticleList(urlParams.pageIndex,urlParams.pageSize);
             var jsonData = JsonConvert.SerializeObject(list);
             return jsonData;
         }
