@@ -21,9 +21,42 @@ namespace Web.Controllers
             return jsonData;
         }
 
+        // GET: api/Services/GetArticles
         public string GetArticles()
         {
             var list = businessService.GetArticleList();
+            var jsonData = JsonConvert.SerializeObject(list);
+            return jsonData;
+        }
+
+        // GET: api/Services/GetEmotionPercentage
+        public string GetEmotionPercentage()
+        {
+            var list = businessService.GetEmotionPercentageList();
+            var jsonData = JsonConvert.SerializeObject(list);
+            return jsonData;
+        }
+
+        // GET: api/Services/GetCatagoryPercentage
+        public string GetCatagoryPercentage()
+        {
+            var list = businessService.GetCategoryPercentageList();
+            var jsonData = JsonConvert.SerializeObject(list);
+            return jsonData;
+        }
+
+        // GET: api/Services/GetHotWordPercentage
+        public string GetHotWordPercentage()
+        {
+            var list = businessService.GetHotWordPercentageList();
+            var jsonData = JsonConvert.SerializeObject(list);
+            return jsonData;
+        }
+
+        // GET: api/Services/GetSiteRank
+        public string GetSiteRank()
+        {
+            var list = businessService.GetSiteRankList();
             var jsonData = JsonConvert.SerializeObject(list);
             return jsonData;
         }

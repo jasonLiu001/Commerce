@@ -40,6 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Article.cs" />
+    <Compile Include="Business\CategoryPercentage.cs" />
+    <Compile Include="Business\EmotionPercentage.cs" />
+    <Compile Include="Business\HotWordPercentage.cs" />
+    <Compile Include="Business\SiteRank.cs" />
     <Compile Include="DataTemplate\JsonDataTemplate.cs" />
     <Compile Include="Company.cs" />
     <Compile Include="HotWord.cs" />
