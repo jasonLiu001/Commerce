@@ -22,7 +22,7 @@ namespace Web.Controllers
             return jsonData;
         }
 
-        // GET: api/Services/GetArticles
+        // GET: api/Services/GetArticlesWithoutPagination
         public string GetArticlesWithoutPagination()
         {
             var list = businessService.GetArticleList();
@@ -30,6 +30,7 @@ namespace Web.Controllers
             return jsonData;
         }
 
+        // GET: api/Services/GetArticles
         public string GetArticles([FromUri] PaginationParams urlParams)
         {
             var list = businessService.GetArticleList(urlParams.pageIndex,urlParams.pageSize);
