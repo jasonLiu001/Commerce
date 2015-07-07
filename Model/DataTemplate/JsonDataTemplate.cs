@@ -48,32 +48,27 @@ namespace Model.DataTemplate
         }
     }
 
-    public class CompassDataTemplate<T1, T2, T3>
-        where T1 : new()
-        where T2 : new()
-        where T3 : new()
-    {
-        public string name { get; set; }
-
-        private string _type="root";
-        public string type {
-            get
-            {
-                return _type;
-            }
-            set
-            {
-                _type = value;
-            }
-        }
-        public List<T1> children1 { get; set; }
-        public List<T2> children2 { get; set; }
-        public List<T3> children3 { get; set; }
-    }
-
     public class CommonDataEntity
     {
         public string name { get; set; }
+        public string type { get; set; }       
+    }
+
+    public class CommonDataEntity<T> where T : new()
+    {
+        public string name { get; set; }
         public string type { get; set; }
+        private List<T> _childrend = null;
+        public List<T> children
+        {
+            get
+            {
+                return _childrend;
+            }
+            set
+            {
+                _childrend = value;
+            }
+        }
     }
 }
