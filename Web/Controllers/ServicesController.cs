@@ -12,8 +12,7 @@ using System.Web.Http.Cors;
 using Web.Utility;
 
 namespace Web.Controllers
-{
-    [EnableCors("*", "*", "*")]
+{    
     public class ServicesController : ApiController
     {
         BusinessService businessService = new BusinessService();
