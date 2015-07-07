@@ -24,8 +24,8 @@ namespace Web.Controllers
             return jsonData;
         }
 
-        // GET: api/Services/GetArticlesWithoutPagination
-        public string GetArticlesWithoutPagination()
+        // GET: api/Services/GetAtricleRank
+        public string GetAtricleRank()
         {
             var list = businessService.GetArticleList();
             var jsonData = JsonConvert.SerializeObject(list);
@@ -89,6 +89,13 @@ namespace Web.Controllers
             var compassData = businessService.GetCompassDataList(sourceDateType.keyWord, queryDate);
             var compassJsonData = JsonConvert.SerializeObject(compassData);
             return compassJsonData;
+        }
+
+        // GET: api/Services/GetChangeTrend
+        public string GetChangeTrend() {
+            var list = businessService.GetHotWordPercentageList();
+            var jsonData = JsonConvert.SerializeObject(list);
+            return jsonData;
         }
     }
 }

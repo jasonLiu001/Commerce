@@ -13,7 +13,7 @@ namespace DataAccess
     {
         public List<Article> GetArticleList()
         {
-            var sql = "select top 10 title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left([content],50) from original_news";
+            var sql = "select top 5 title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left([content],50) from original_news order by same_doc_count desc";
             var list = Utility.GetListFromDB<Article>(new string[] { "title", "site_name", "url", "media_type", "polarity", "publish_date", "same_doc_count", "address", "[content]" }, sql);
             return list;
         }
@@ -62,14 +62,14 @@ namespace DataAccess
 
         public List<HotWordPercentage> GetHotWordPercentageList()
         {
-            var sql = "select hotword,hotword_counts from b_hotword_percentage order by hotword_counts desc";
+            var sql = "select top 7 hotword,hotword_counts from b_hotword_percentage order by hotword_counts desc";
             var list = Utility.GetListFromDB<HotWordPercentage>(new string[] { "hotword", "hotword_counts"}, sql);
             return list;
         }
 
         public List<SiteRank> GetSiteRankList()
         {
-            var sql = "select site_name,news_counts from b_site_name_rank";
+            var sql = "select top 5 site_name,news_counts from b_site_name_rank order by news_counts desc";
             var list = Utility.GetListFromDB<SiteRank>(new string[] { "site_name", "news_counts" }, sql);
             return list;
         }
