@@ -20,7 +20,7 @@ namespace Model.UrlParams
     /// </summary>
     public class SourceDataType
     {
-        public string keyWord { get; set; }
+        public string dataType { get; set; }
         public string queryDate { get; set; }
     }
 }

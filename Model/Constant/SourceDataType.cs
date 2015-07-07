@@ -10,7 +10,7 @@ namespace Model.Constant
     {
         public const string HotWord = "hotword";
         public const string Area = "area";
-        public const string Person = "person";
+        public const string People = "people";
         public const string Company = "company";
     }
 }

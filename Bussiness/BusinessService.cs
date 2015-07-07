@@ -136,55 +136,52 @@ namespace Bussiness
         /// </summary>
         /// <param name="keyWord"></param>
         /// <returns></returns>
-        public List<CompassDataTemplate<CommonDataEntity, CommonDataEntity, CommonDataEntity>> GetCompassDataList(string keyWord, DateTime? queryDate)
+        public List<JsonDataTemplate<CommonDataEntity>> GetCompassDataList(string keyWord, DateTime? queryDate)
         {
-            var list = new List<CompassDataTemplate<CommonDataEntity, CommonDataEntity, CommonDataEntity>>();
+            var list = new List<JsonDataTemplate<CommonDataEntity>>();
+            var finalData = new List<CommonDataEntity>();
             var hotWordsList = dataService.GetHotWordsList();
             var companyList = dataService.GetCompanyList();
             var areaList = dataService.GetAreasList();
             var personList = dataService.GetCompanyList();
 
-            #region Fill company data.
-            var companyData = new List<CommonDataEntity>();
+            #region Fill company data.           
             foreach (var company in companyList)
             {
                 var commonData = new CommonDataEntity();
                 commonData.name = company.company_name;
                 commonData.type = "company";
-                companyData.Add(commonData);
+                finalData.Add(commonData);
             }
             #endregion
 
-            #region Fill area data.
-            var areaData = new List<CommonDataEntity>();
+            #region Fill area data.          
             foreach (var area in areaList)
             {
                 var commonData = new CommonDataEntity();
                 commonData.name = area.area;
                 commonData.type = "area";
-                areaData.Add(commonData);
+                finalData.Add(commonData);
             }
             #endregion
 
             #region Fill person data.
-            var personData = new List<CommonDataEntity>();
             foreach (var person in personList)
             {
                 var commonData = new CommonDataEntity();
                 commonData.name = person.company_boss;
-                commonData.type = "person";
-                personData.Add(commonData);
+                commonData.type = "people";
+                finalData.Add(commonData);
             }
             #endregion
 
             #region Fill hotword data
-            var hotWordData = new List<CommonDataEntity>();
             foreach (var hotword in hotWordsList)
             {
                 var commonData = new CommonDataEntity();
                 commonData.name = hotword.hotword;
                 commonData.type = "hotword";
-                hotWordData.Add(commonData);
+                finalData.Add(commonData);
             }
             #endregion
 
@@ -195,25 +192,21 @@ namespace Bussiness
                         #region Final Data by hotWords
                         foreach (var hotWord in hotWordsList)
                         {
-                            var jsonData = new CompassDataTemplate<CommonDataEntity, CommonDataEntity, CommonDataEntity>();
+                            var jsonData = new JsonDataTemplate<CommonDataEntity>();
                             jsonData.name = hotWord.hotword;
-                            jsonData.children1 = companyData;
-                            jsonData.children2 = areaData;
-                            jsonData.children3 = personData;
+                            jsonData.children = finalData;
                             list.Add(jsonData);
                         }
                         #endregion
                     }
                     break;
-                case SourceDataType.Person:
+                case SourceDataType.People:
                     {
                         foreach (var person in personList)
                         {
-                            var jsonData = new CompassDataTemplate<CommonDataEntity, CommonDataEntity, CommonDataEntity>();
+                            var jsonData = new JsonDataTemplate<CommonDataEntity>(); 
                             jsonData.name = person.company_boss;
-                            jsonData.children1 = hotWordData;
-                            jsonData.children2 = areaData;
-                            jsonData.children3 = personData;
+                            jsonData.children = finalData;
                             list.Add(jsonData);
                         }
                     }
@@ -222,11 +215,9 @@ namespace Bussiness
                     {
                         foreach (var area in areaList)
                         {
-                            var jsonData = new CompassDataTemplate<CommonDataEntity, CommonDataEntity, CommonDataEntity>();
+                            var jsonData = new JsonDataTemplate<CommonDataEntity>(); 
                             jsonData.name = area.area;
-                            jsonData.children1 = companyData;
-                            jsonData.children2 = areaData;
-                            jsonData.children3 = personData;
+                            jsonData.children = finalData;
                             list.Add(jsonData);
                         }
                     }
@@ -235,13 +226,20 @@ namespace Bussiness
                     {
                         foreach (var company in companyList)
                         {
-                            var jsonData = new CompassDataTemplate<CommonDataEntity, CommonDataEntity, CommonDataEntity>();
+                            var jsonData = new JsonDataTemplate<CommonDataEntity>(); 
                             jsonData.name = company.company_name;
-                            jsonData.children1 = companyData;
-                            jsonData.children2 = areaData;
-                            jsonData.children3 = personData;
+                            jsonData.children = finalData;
                             list.Add(jsonData);
                         }
+                    }
+                    break;
+                default:
+                    foreach (var hotWord in hotWordsList)
+                    {
+                        var jsonData = new JsonDataTemplate<CommonDataEntity>();
+                        jsonData.name = hotWord.hotword;
+                        jsonData.children = finalData;
+                        list.Add(jsonData);
                     }
                     break;
             }

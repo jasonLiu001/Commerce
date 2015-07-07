@@ -86,7 +86,7 @@ namespace Web.Controllers
                 return JsonConvert.SerializeObject(list);
             }
 
-            var compassData = businessService.GetCompassDataList(sourceDateType.keyWord, queryDate);
+            var compassData = businessService.GetCompassDataList(sourceDateType.dataType, queryDate);
             var compassJsonData = JsonConvert.SerializeObject(compassData);
             return compassJsonData;
         }
