@@ -1,5 +1,6 @@
 ﻿using Bussiness;
-using Model.Pagination;
+using Model.DataTemplate;
+using Model.UrlParams;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Web.Utility;
 
 namespace Web.Controllers
 {
@@ -31,7 +33,7 @@ namespace Web.Controllers
         }
 
         // GET: api/Services/GetArticles
-        public string GetArticles([FromUri] PaginationParams urlParams)
+        public string GetArticles([FromUri] UrlParams urlParams)
         {
             var list = businessService.GetArticleList(urlParams.pageIndex,urlParams.pageSize);
             var jsonData = JsonConvert.SerializeObject(list);
@@ -70,9 +72,23 @@ namespace Web.Controllers
             return jsonData;
         }
 
-        // POST: api/Services
-        public void Post([FromBody]string value)
+        // POST: api/Services/GetCompassData
+        [HttpPost]
+        public string GetCompassData([FromBody]SourceDataType sourceDateType)
         {
+            var queryDate=Util.ConvertToDateTime(sourceDateType.queryDate);
+            if(queryDate==null){
+                var list = new List<JsonDataTemplate<CommonDataEntity>>();
+                var jsonData = new JsonDataTemplate<CommonDataEntity>();
+                jsonData.name="Date format error!";
+                jsonData.errorMsg = "日期格式错误！";
+                list.Add(jsonData);
+                return JsonConvert.SerializeObject(list);
+            }
+
+            var compassData = businessService.GetCompassDataList(sourceDateType.keyWord, queryDate);
+            var compassJsonData = JsonConvert.SerializeObject(compassData);
+            return compassJsonData;
         }
     }
 }

@@ -91,6 +91,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\BrowserJsonFormatter.cs" />
+    <Compile Include="Utility\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

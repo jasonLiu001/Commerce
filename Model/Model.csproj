@@ -43,11 +43,13 @@
     <Compile Include="Business\CategoryPercentage.cs" />
     <Compile Include="Business\EmotionPercentage.cs" />
     <Compile Include="Business\HotWordPercentage.cs" />
+    <Compile Include="Business\Person.cs" />
     <Compile Include="Business\SiteRank.cs" />
     <Compile Include="DataTemplate\JsonDataTemplate.cs" />
     <Compile Include="Company.cs" />
+    <Compile Include="Constant\SourceDataType.cs" />
     <Compile Include="HotWord.cs" />
-    <Compile Include="Pagination\PaginationParams.cs" />
+    <Compile Include="UrlParams\UrlParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Region.cs" />
     <Compile Include="RegionDetail.cs" />

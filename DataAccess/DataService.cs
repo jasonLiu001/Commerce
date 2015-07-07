@@ -27,14 +27,21 @@ namespace DataAccess
 
         public List<HotWord> GetHotWordsList()
         {
-            var sql = "select id,hotword from original_hotword";
+            var sql = "select top 10 id,hotword from original_hotword";
             var list = Utility.GetListFromDB<HotWord>(new string[] { "id","hotword" }, sql);
+            return list;
+        }
+
+        public List<HotWord> GetHotWordsList(DateTime date)
+        {
+            var sql = "select top 10 id,hotword from original_hotword";
+            var list = Utility.GetListFromDB<HotWord>(new string[] { "id", "hotword" }, sql);
             return list;
         }
 
         public List<Company> GetCompanyList()
         {
-            var sql = "select id,company_name,company_name_short,company_boss from original_company";
+            var sql = "select top 10 id,company_name,company_name_short,company_boss from original_company";
             var list = Utility.GetListFromDB<Company>(new string[] { "id","company_name", "company_name_short", "company_boss" }, sql);
             return list;
         }
@@ -55,7 +62,7 @@ namespace DataAccess
 
         public List<HotWordPercentage> GetHotWordPercentageList()
         {
-            var sql = "select hotword,hotword_counts from b_hotword_percentage";
+            var sql = "select hotword,hotword_counts from b_hotword_percentage order by hotword_counts desc";
             var list = Utility.GetListFromDB<HotWordPercentage>(new string[] { "hotword", "hotword_counts"}, sql);
             return list;
         }
@@ -64,6 +71,13 @@ namespace DataAccess
         {
             var sql = "select site_name,news_counts from b_site_name_rank";
             var list = Utility.GetListFromDB<SiteRank>(new string[] { "site_name", "news_counts" }, sql);
+            return list;
+        }
+
+        public List<RegionDetail> GetAreasList()
+        {
+            var sql = " select top 10 area from original_region_detail where region_rank=2";
+            var list = Utility.GetListFromDB<RegionDetail>(new string[] { "area" }, sql);
             return list;
         }
     }
