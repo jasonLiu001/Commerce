@@ -84,21 +84,15 @@ namespace Web.Controllers
 
             if (string.IsNullOrEmpty(sourceDateType.dataType))
             {
-                errorJsonData.errorMsg = "参数dataType值不能为空";
-                errorList.Add(errorJsonData);
-                return JsonConvert.SerializeObject(errorList);
+                sourceDateType.dataType = "hotword";
             }
             else if (string.IsNullOrEmpty(sourceDateType.queryDate))
             {
-                errorJsonData.errorMsg = "参数queryDate值不能为空";
-                errorList.Add(errorJsonData);
-                return JsonConvert.SerializeObject(errorList);
+                sourceDateType.dataType = "2015-05-27";
             }
             else if (string.IsNullOrEmpty(sourceDateType.topCount))
             {
-                errorJsonData.errorMsg = "参数topCounts值不能为空";
-                errorList.Add(errorJsonData);
-                return JsonConvert.SerializeObject(errorList);
+                sourceDateType.topCount = "10";
             }           
             else if (queryDate == null)
             {
@@ -106,12 +100,11 @@ namespace Web.Controllers
                 errorList.Add(errorJsonData);
                 return JsonConvert.SerializeObject(errorList);
             }
-            else
-            {
-                var compassData = businessService.GetCompassDataList(sourceDateType.dataType, queryDate,sourceDateType.topCount);
-                var compassJsonData = JsonConvert.SerializeObject(compassData);
-                return compassJsonData;
-            }
+
+
+            var compassData = businessService.GetCompassDataList(sourceDateType.dataType, queryDate, sourceDateType.topCount);
+            var compassJsonData = JsonConvert.SerializeObject(compassData);
+            return compassJsonData;
         }
 
         // GET: api/Services/GetChangeTrend

@@ -20,8 +20,20 @@ namespace Model.UrlParams
     /// </summary>
     public class SourceDataType
     {
-        public string dataType { get; set; }
-        public string queryDate { get; set; }
-        public string topCount { get; set; }
+        public string dataType
+        {
+            get;
+            set;
+        }
+        public string queryDate
+        {
+            get;
+            set;
+        }
+        public string topCount
+        {
+            get;
+            set;
+        }
     }
 }
