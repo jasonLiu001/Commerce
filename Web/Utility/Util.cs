@@ -7,7 +7,7 @@ namespace Web.Utility
 {
     public class Util
     {
-        public static DateTime? ConvertToDateTime(string dateTimeString)
+        public static DateTime ConvertToDateTime(string dateTimeString)
         {
             var dt = DateTime.MinValue;
             if (DateTime.TryParse(dateTimeString, out dt))
@@ -15,7 +15,7 @@ namespace Web.Utility
                 return dt;
             }
 
-            return null;
+            return new DateTime(2015,05,27);
         }
     }
 }

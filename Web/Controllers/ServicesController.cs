@@ -12,7 +12,7 @@ using System.Web.Http.Cors;
 using Web.Utility;
 
 namespace Web.Controllers
-{    
+{
     public class ServicesController : ApiController
     {
         BusinessService businessService = new BusinessService();
@@ -36,7 +36,7 @@ namespace Web.Controllers
         // GET: api/Services/GetArticles
         public string GetArticles([FromUri] UrlParams urlParams)
         {
-            var list = businessService.GetArticleList(urlParams.pageIndex,urlParams.pageSize);
+            var list = businessService.GetArticleList(urlParams.pageIndex, urlParams.pageSize);
             var jsonData = JsonConvert.SerializeObject(list);
             return jsonData;
         }
@@ -77,23 +77,46 @@ namespace Web.Controllers
         [HttpPost]
         public string GetCompassData([FromBody]SourceDataType sourceDateType)
         {
-            var queryDate=Util.ConvertToDateTime(sourceDateType.queryDate);
-            if(queryDate==null){
-                var list = new List<JsonDataTemplate<CommonDataEntity>>();
-                var jsonData = new JsonDataTemplate<CommonDataEntity>();
-                jsonData.name="Date format error!";
-                jsonData.errorMsg = "日期格式错误！";
-                list.Add(jsonData);
-                return JsonConvert.SerializeObject(list);
-            }
+            var errorList = new List<JsonDataTemplate<CommonDataEntity>>();
+            var errorJsonData = new JsonDataTemplate<CommonDataEntity>();
+            var queryDate = Util.ConvertToDateTime(sourceDateType.queryDate);
+            errorJsonData.name = "参数错误";
 
-            var compassData = businessService.GetCompassDataList(sourceDateType.dataType, queryDate);
-            var compassJsonData = JsonConvert.SerializeObject(compassData);
-            return compassJsonData;
+            if (string.IsNullOrEmpty(sourceDateType.dataType))
+            {
+                errorJsonData.errorMsg = "参数dataType值不能为空";
+                errorList.Add(errorJsonData);
+                return JsonConvert.SerializeObject(errorList);
+            }
+            else if (string.IsNullOrEmpty(sourceDateType.queryDate))
+            {
+                errorJsonData.errorMsg = "参数queryDate值不能为空";
+                errorList.Add(errorJsonData);
+                return JsonConvert.SerializeObject(errorList);
+            }
+            else if (string.IsNullOrEmpty(sourceDateType.topCount))
+            {
+                errorJsonData.errorMsg = "参数topCounts值不能为空";
+                errorList.Add(errorJsonData);
+                return JsonConvert.SerializeObject(errorList);
+            }           
+            else if (queryDate == null)
+            {
+                errorJsonData.errorMsg = "参数queryDate日期格式错误！";
+                errorList.Add(errorJsonData);
+                return JsonConvert.SerializeObject(errorList);
+            }
+            else
+            {
+                var compassData = businessService.GetCompassDataList(sourceDateType.dataType, queryDate,sourceDateType.topCount);
+                var compassJsonData = JsonConvert.SerializeObject(compassData);
+                return compassJsonData;
+            }
         }
 
         // GET: api/Services/GetChangeTrend
-        public string GetChangeTrend() {
+        public string GetChangeTrend()
+        {
             var list = businessService.GetHotWordPercentageList();
             var jsonData = JsonConvert.SerializeObject(list);
             return jsonData;

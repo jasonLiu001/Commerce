@@ -22,5 +22,6 @@ namespace Model.UrlParams
     {
         public string dataType { get; set; }
         public string queryDate { get; set; }
+        public string topCount { get; set; }
     }
 }

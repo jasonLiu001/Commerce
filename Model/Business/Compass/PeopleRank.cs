@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Business
+namespace Model.Business.Compass
 {
-    public class Person
+    public class PeopleRank
     {
-        public string name { get; set; }
+        public string people { get; set; }
     }
 }

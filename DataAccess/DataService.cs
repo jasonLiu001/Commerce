@@ -1,6 +1,7 @@
 ﻿using DataAccess.Helper;
 using Model;
 using Model.Business;
+using Model.Business.Compass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,5 +81,36 @@ namespace DataAccess
             var list = Utility.GetListFromDB<RegionDetail>(new string[] { "area" }, sql);
             return list;
         }
+
+        #region CompassData
+
+        public List<AreaRank> GetAreaRankList(string topCount = "5", string publishDate = "2015-05-27")
+        {
+            var sql = "select distinct TOP " + topCount + " city,frequency from b_area_rank where datediff(dd,publish_date,'" + publishDate + "')=0 order by frequency desc";
+            var list = Utility.GetListFromDB<AreaRank>(new string[] { "city", "frequency" }, sql);
+            return list;
+        }
+
+        public List<PeopleRank> GetPeopleRankList(string topCount = "5", string publishDate = "2015-05-27")
+        {
+            var sql = "select distinct TOP " + topCount + " people,frequency from b_people_rank where datediff(dd,publish_date,'" + publishDate + "')=0 order by frequency desc";
+            var list = Utility.GetListFromDB<PeopleRank>(new string[] { "people", "frequency" }, sql);
+            return list;
+        }
+
+        public List<CompanyRank> GetCompanyRankList(string topCount = "5", string publishDate = "2015-05-27")
+        {
+            var sql = "select distinct TOP " + topCount + " company_name,frequency from b_company_rank where datediff(dd,publish_date,'" + publishDate + "')=0 order by frequency desc";
+            var list = Utility.GetListFromDB<CompanyRank>(new string[] { "company_name", "frequency" }, sql);
+            return list;
+        }
+
+        public List<HotwordRank> GetHotwordRankList(string topCount = "5", string publishDate = "2015-05-27")
+        {
+            var sql = "select distinct TOP " + topCount + " hotword,frequency from b_hotword_rank where datediff(dd,publish_date,'" + publishDate + "')=0 order by frequency desc";
+            var list = Utility.GetListFromDB<HotwordRank>(new string[] { "hotword", "frequency" }, sql);
+            return list;
+        }
+        #endregion
     }
 }

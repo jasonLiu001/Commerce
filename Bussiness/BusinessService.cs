@@ -27,7 +27,7 @@ namespace Bussiness
                     return "company";
                 case SourceDataType.People:
                     return "people";
-                default :
+                default:
                     return "hotword";
             }
         }
@@ -153,10 +153,10 @@ namespace Bussiness
         /// </summary>
         /// <param name="keyWord"></param>
         /// <returns></returns>
-        public List<JsonDataTemplate<CommonDataEntity<CommonDataEntity>>> GetCompassDataList(string keyWord, DateTime? queryDate)
+        public List<JsonDataTemplate<CommonDataEntity<CommonDataEntity>>> GetCompassDataList(string keyWord, DateTime queryDate, string topCount)
         {
             var list = new List<JsonDataTemplate<CommonDataEntity<CommonDataEntity>>>();
-
+            var publishDate = queryDate.ToString("yyyy-MM-dd");
             //关键词
             var hotWordData = new List<CommonDataEntity<CommonDataEntity>>();
             //公司
@@ -173,22 +173,22 @@ namespace Bussiness
             var childrenList = new List<CommonDataEntity>();
             childrenList.Add(commonDataEntity);
 
-            var hotWordsList = dataService.GetHotWordsList();
-            var companyList = dataService.GetCompanyList();
-            var areaList = dataService.GetAreasList();
-            var personList = dataService.GetCompanyList();
+            var hotWordsList = dataService.GetHotwordRankList(topCount, publishDate);
+            var companyList = dataService.GetCompanyRankList(topCount, publishDate);
+            var areaList = dataService.GetAreaRankList(topCount, publishDate);
+            var personList = dataService.GetPeopleRankList(topCount, publishDate);
 
             #region Fill company data.
             foreach (var company in companyList)
             {
                 var commonData = new CommonDataEntity<CommonDataEntity>();
-                commonData.name = company.company_name_short;
+                commonData.name = company.company_name;
                 commonData.type = "company";
                 commonData.children = childrenList;
                 hotWordData.Add(commonData);
                 //companyData.Add(commonData);
                 peopleData.Add(commonData);
-                areaData.Add(commonData);                
+                areaData.Add(commonData);
             }
             #endregion
 
@@ -196,7 +196,7 @@ namespace Bussiness
             foreach (var area in areaList)
             {
                 var commonData = new CommonDataEntity<CommonDataEntity>();
-                commonData.name = area.area;
+                commonData.name = area.city;
                 commonData.type = "area";
                 commonData.children = childrenList;
                 hotWordData.Add(commonData);
@@ -210,7 +210,7 @@ namespace Bussiness
             foreach (var person in personList)
             {
                 var commonData = new CommonDataEntity<CommonDataEntity>();
-                commonData.name = person.company_boss;
+                commonData.name = person.people;
                 commonData.type = "people";
                 commonData.children = childrenList;
                 hotWordData.Add(commonData);
@@ -229,8 +229,8 @@ namespace Bussiness
                 commonData.type = GetCommonDataType(keyWord);
                 commonData.children = childrenList;
                 //hotWordData.Add(commonData);
-                companyData.Add(commonData);                
-                areaData.Add(commonData);               
+                companyData.Add(commonData);
+                areaData.Add(commonData);
                 peopleData.Add(commonData);
             }
             #endregion
@@ -255,7 +255,7 @@ namespace Bussiness
                         foreach (var person in personList)
                         {
                             var jsonData = new JsonDataTemplate<CommonDataEntity<CommonDataEntity>>();
-                            jsonData.name = person.company_boss;
+                            jsonData.name = person.people;
                             jsonData.children = peopleData;
                             list.Add(jsonData);
                         }
@@ -266,7 +266,7 @@ namespace Bussiness
                         foreach (var area in areaList)
                         {
                             var jsonData = new JsonDataTemplate<CommonDataEntity<CommonDataEntity>>();
-                            jsonData.name = area.area;
+                            jsonData.name = area.city;
                             jsonData.children = areaData;
                             list.Add(jsonData);
                         }
