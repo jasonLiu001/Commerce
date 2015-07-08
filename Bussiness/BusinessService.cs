@@ -15,6 +15,23 @@ namespace Bussiness
     {
         DataService dataService = new DataService();
 
+        private string GetCommonDataType(string keyWord)
+        {
+            switch (keyWord)
+            {
+                case SourceDataType.HotWord:
+                    return "hotword";
+                case SourceDataType.Area:
+                    return "area";
+                case SourceDataType.Company:
+                    return "company";
+                case SourceDataType.People:
+                    return "people";
+                default :
+                    return "hotword";
+            }
+        }
+
         public List<JsonDataTemplate<Article>> GetArticleList()
         {
             var list = new List<JsonDataTemplate<Article>>();
@@ -165,13 +182,13 @@ namespace Bussiness
             foreach (var company in companyList)
             {
                 var commonData = new CommonDataEntity<CommonDataEntity>();
-                commonData.name = company.company_name;
+                commonData.name = company.company_name_short;
                 commonData.type = "company";
                 commonData.children = childrenList;
                 hotWordData.Add(commonData);
                 //companyData.Add(commonData);
                 peopleData.Add(commonData);
-                areaData.Add(commonData);
+                areaData.Add(commonData);                
             }
             #endregion
 
@@ -208,12 +225,13 @@ namespace Bussiness
             {
                 var commonData = new CommonDataEntity<CommonDataEntity>();
                 commonData.name = hotword.hotword;
-                commonData.type = "hotword";
+                //改变type类型
+                commonData.type = GetCommonDataType(keyWord);
                 commonData.children = childrenList;
                 //hotWordData.Add(commonData);
-                companyData.Add(commonData);
+                companyData.Add(commonData);                
+                areaData.Add(commonData);               
                 peopleData.Add(commonData);
-                areaData.Add(commonData);
             }
             #endregion
 
