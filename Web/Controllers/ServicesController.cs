@@ -65,10 +65,35 @@ namespace Web.Controllers
             return jsonData;
         }
 
-        // GET: api/Services/GetSiteRank
-        public string GetSiteRank()
+        // POST: api/Services/GetSiteRank
+        [HttpPost]
+        public string GetSiteRank([FromBody]SourceDataType sourceDateType)
         {
-            var list = businessService.GetSiteRankList();
+            var errorList = new List<JsonDataTemplate<CommonDataEntity>>();
+            var errorJsonData = new JsonDataTemplate<CommonDataEntity>();
+            var queryDate = Util.ConvertToDateTime(sourceDateType.queryDate);
+            errorJsonData.name = "参数错误";
+
+            if (string.IsNullOrEmpty(sourceDateType.dataType))
+            {
+                sourceDateType.dataType = "hotword";
+            }
+            else if (string.IsNullOrEmpty(sourceDateType.queryDate))
+            {
+                sourceDateType.dataType = "2015-05-27";
+            }
+            else if (string.IsNullOrEmpty(sourceDateType.topCount))
+            {
+                sourceDateType.topCount = "10";
+            }
+            else if (queryDate == null)
+            {
+                errorJsonData.errorMsg = "参数queryDate日期格式错误！";
+                errorList.Add(errorJsonData);
+                return JsonConvert.SerializeObject(errorList);
+            }
+
+            var list = businessService.GetSiteRankList(sourceDateType.dataType, queryDate, sourceDateType.topCount);
             var jsonData = JsonConvert.SerializeObject(list);
             return jsonData;
         }
@@ -93,7 +118,7 @@ namespace Web.Controllers
             else if (string.IsNullOrEmpty(sourceDateType.topCount))
             {
                 sourceDateType.topCount = "10";
-            }           
+            }
             else if (queryDate == null)
             {
                 errorJsonData.errorMsg = "参数queryDate日期格式错误！";

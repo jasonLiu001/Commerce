@@ -136,16 +136,19 @@ namespace Bussiness
         /// 来源网站排行
         /// </summary>
         /// <returns></returns>
-        public List<JsonDataTemplate<SiteRank>> GetSiteRankList()
-        {
-            var list = new List<JsonDataTemplate<SiteRank>>();
-            var jsonData = new JsonDataTemplate<SiteRank>();
-            var siteRankList = dataService.GetSiteRankList();
-            jsonData.name = "来源网站排名";
-            jsonData.type = "root";
-            jsonData.children = siteRankList;
-            list.Add(jsonData);
-            return list;
+        public SiteRankJsonData GetSiteRankList(string keyWord, DateTime queryDate, string topCount)
+        {           
+            var jsonData = new SiteRankJsonData();
+            jsonData.cities = new List<string>();
+            jsonData.data = new List<int>();
+            var siteRankList = dataService.GetSiteRankList(keyWord, topCount, queryDate.ToString("yyyy-MM-dd"));
+
+            foreach (var siteRank in siteRankList)
+            {
+                jsonData.cities.Add(siteRank.site_name);
+                jsonData.data.Add(siteRank.news_counts);
+            }            
+            return jsonData;
         }
 
         /// <summary>

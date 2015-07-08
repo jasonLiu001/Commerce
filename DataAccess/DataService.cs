@@ -21,7 +21,7 @@ namespace DataAccess
 
         public List<Article> GetArticleList(int pageIndex, int pageSize)
         {
-            var sql = "select title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left([content],50) from (select ROW_NUMBER() over(order by publish_date desc) as rowId,*from original_news) temp where temp.rowId>"+(pageIndex*pageSize).ToString()+" and temp.rowId<"+((pageIndex+1)*pageSize).ToString();
+            var sql = "select title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left([content],50) from (select ROW_NUMBER() over(order by publish_date desc) as rowId,*from original_news) temp where temp.rowId>" + (pageIndex * pageSize).ToString() + " and temp.rowId<" + ((pageIndex + 1) * pageSize).ToString();
             var list = Utility.GetListFromDB<Article>(new string[] { "title", "site_name", "url", "media_type", "polarity", "publish_date", "same_doc_count", "address", "[content]" }, sql);
             return list;
         }
@@ -29,7 +29,7 @@ namespace DataAccess
         public List<HotWord> GetHotWordsList()
         {
             var sql = "select top 10 id,hotword from original_hotword";
-            var list = Utility.GetListFromDB<HotWord>(new string[] { "id","hotword" }, sql);
+            var list = Utility.GetListFromDB<HotWord>(new string[] { "id", "hotword" }, sql);
             return list;
         }
 
@@ -43,7 +43,7 @@ namespace DataAccess
         public List<Company> GetCompanyList()
         {
             var sql = "select top 10 id,company_name,company_name_short,company_boss from original_company";
-            var list = Utility.GetListFromDB<Company>(new string[] { "id","company_name", "company_name_short", "company_boss" }, sql);
+            var list = Utility.GetListFromDB<Company>(new string[] { "id", "company_name", "company_name_short", "company_boss" }, sql);
             return list;
         }
 
@@ -64,13 +64,13 @@ namespace DataAccess
         public List<HotWordPercentage> GetHotWordPercentageList()
         {
             var sql = "select top 7 hotword,hotword_counts from b_hotword_percentage order by hotword_counts desc";
-            var list = Utility.GetListFromDB<HotWordPercentage>(new string[] { "hotword", "hotword_counts"}, sql);
+            var list = Utility.GetListFromDB<HotWordPercentage>(new string[] { "hotword", "hotword_counts" }, sql);
             return list;
         }
 
-        public List<SiteRank> GetSiteRankList()
+        public List<SiteRank> GetSiteRankList(string keyWord = "hotword", string topCount = "5", string publishDate = "2015-05-27")
         {
-            var sql = "select top 5 site_name,news_counts from b_site_name_rank order by news_counts desc";
+            var sql = "select top " + topCount + " site_name,news_counts from b_site_name_rank order by news_counts desc";
             var list = Utility.GetListFromDB<SiteRank>(new string[] { "site_name", "news_counts" }, sql);
             return list;
         }

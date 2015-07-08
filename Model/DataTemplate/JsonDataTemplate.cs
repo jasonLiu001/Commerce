@@ -71,4 +71,10 @@ namespace Model.DataTemplate
             }
         }
     }
+
+    public class SiteRankJsonData
+    {
+        public List<string> cities { get; set; }
+        public List<int> data { get; set; }
+    }
 }
