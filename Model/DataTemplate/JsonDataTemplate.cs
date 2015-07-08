@@ -76,5 +76,4 @@ namespace Model.DataTemplate
     {
         public List<string> cities { get; set; }
         public List<int> data { get; set; }
-    }
-}
+    }}

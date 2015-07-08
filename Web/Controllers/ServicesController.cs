@@ -25,14 +25,6 @@ namespace Web.Controllers
             return jsonData;
         }
 
-        // GET: api/Services/GetAtricleRank
-        public string GetAtricleRank()
-        {
-            var list = businessService.GetArticleList();
-            var jsonData = JsonConvert.SerializeObject(list);
-            return jsonData;
-        }
-
         // GET: api/Services/GetArticles
         public string GetArticles([FromUri] UrlParams urlParams)
         {
@@ -61,6 +53,14 @@ namespace Web.Controllers
         public string GetHotWordPercentage()
         {
             var list = businessService.GetHotWordPercentageList();
+            var jsonData = JsonConvert.SerializeObject(list);
+            return jsonData;
+        }
+
+        // GET: api/Services/GetAtricleRank
+        public string GetAtricleRank()
+        {
+            var list = businessService.GetArticleList();
             var jsonData = JsonConvert.SerializeObject(list);
             return jsonData;
         }
@@ -132,10 +132,35 @@ namespace Web.Controllers
             return compassJsonData;
         }
 
-        // GET: api/Services/GetChangeTrend
-        public string GetChangeTrend()
+        // POST: api/Services/GetChangeTrend
+        [HttpPost]
+        public string GetChangeTrend([FromBody]SourceDataType sourceDateType)
         {
-            var list = businessService.GetHotWordPercentageList();
+            var errorList = new List<JsonDataTemplate<CommonDataEntity>>();
+            var errorJsonData = new JsonDataTemplate<CommonDataEntity>();
+            var queryDate = Util.ConvertToDateTime(sourceDateType.queryDate);
+            errorJsonData.name = "参数错误";
+
+            if (string.IsNullOrEmpty(sourceDateType.dataType))
+            {
+                sourceDateType.dataType = "hotword";
+            }
+            else if (string.IsNullOrEmpty(sourceDateType.queryDate))
+            {
+                sourceDateType.dataType = "2015-05-27";
+            }
+            else if (string.IsNullOrEmpty(sourceDateType.topCount))
+            {
+                sourceDateType.topCount = "7";
+            }
+            else if (queryDate == null)
+            {
+                errorJsonData.errorMsg = "参数queryDate日期格式错误！";
+                errorList.Add(errorJsonData);
+                return JsonConvert.SerializeObject(errorList);
+            }
+
+            var list = businessService.GetHotWordPercentageList(sourceDateType.dataType, queryDate, sourceDateType.topCount);
             var jsonData = JsonConvert.SerializeObject(list);
             return jsonData;
         }
