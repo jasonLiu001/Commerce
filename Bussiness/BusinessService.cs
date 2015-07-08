@@ -140,7 +140,14 @@ namespace Bussiness
         {
             var list = new List<JsonDataTemplate<CommonDataEntity<CommonDataEntity>>>();
 
-            var finalData = new List<CommonDataEntity<CommonDataEntity>>();
+            //关键词
+            var hotWordData = new List<CommonDataEntity<CommonDataEntity>>();
+            //公司
+            var companyData = new List<CommonDataEntity<CommonDataEntity>>();
+            //人物
+            var peopleData = new List<CommonDataEntity<CommonDataEntity>>();
+            //地区
+            var areaData = new List<CommonDataEntity<CommonDataEntity>>();
 
             //构建"children": [{ "name": "", "type": "child" }] }
             var commonDataEntity = new CommonDataEntity();
@@ -154,25 +161,31 @@ namespace Bussiness
             var areaList = dataService.GetAreasList();
             var personList = dataService.GetCompanyList();
 
-            #region Fill company data.           
+            #region Fill company data.
             foreach (var company in companyList)
             {
                 var commonData = new CommonDataEntity<CommonDataEntity>();
                 commonData.name = company.company_name;
                 commonData.type = "company";
                 commonData.children = childrenList;
-                finalData.Add(commonData);
+                hotWordData.Add(commonData);
+                //companyData.Add(commonData);
+                peopleData.Add(commonData);
+                areaData.Add(commonData);
             }
             #endregion
 
-            #region Fill area data.          
+            #region Fill area data.
             foreach (var area in areaList)
             {
                 var commonData = new CommonDataEntity<CommonDataEntity>();
                 commonData.name = area.area;
                 commonData.type = "area";
                 commonData.children = childrenList;
-                finalData.Add(commonData);
+                hotWordData.Add(commonData);
+                companyData.Add(commonData);
+                peopleData.Add(commonData);
+                //areaData.Add(commonData);
             }
             #endregion
 
@@ -183,7 +196,10 @@ namespace Bussiness
                 commonData.name = person.company_boss;
                 commonData.type = "people";
                 commonData.children = childrenList;
-                finalData.Add(commonData);
+                hotWordData.Add(commonData);
+                companyData.Add(commonData);
+                //peopleData.Add(commonData);
+                areaData.Add(commonData);
             }
             #endregion
 
@@ -194,7 +210,10 @@ namespace Bussiness
                 commonData.name = hotword.hotword;
                 commonData.type = "hotword";
                 commonData.children = childrenList;
-                finalData.Add(commonData);
+                //hotWordData.Add(commonData);
+                companyData.Add(commonData);
+                peopleData.Add(commonData);
+                areaData.Add(commonData);
             }
             #endregion
 
@@ -207,7 +226,7 @@ namespace Bussiness
                         {
                             var jsonData = new JsonDataTemplate<CommonDataEntity<CommonDataEntity>>();
                             jsonData.name = hotWord.hotword;
-                            jsonData.children = finalData;
+                            jsonData.children = hotWordData;
                             list.Add(jsonData);
                         }
                         #endregion
@@ -219,7 +238,7 @@ namespace Bussiness
                         {
                             var jsonData = new JsonDataTemplate<CommonDataEntity<CommonDataEntity>>();
                             jsonData.name = person.company_boss;
-                            jsonData.children = finalData;
+                            jsonData.children = peopleData;
                             list.Add(jsonData);
                         }
                     }
@@ -230,7 +249,7 @@ namespace Bussiness
                         {
                             var jsonData = new JsonDataTemplate<CommonDataEntity<CommonDataEntity>>();
                             jsonData.name = area.area;
-                            jsonData.children = finalData;
+                            jsonData.children = areaData;
                             list.Add(jsonData);
                         }
                     }
@@ -241,7 +260,7 @@ namespace Bussiness
                         {
                             var jsonData = new JsonDataTemplate<CommonDataEntity<CommonDataEntity>>();
                             jsonData.name = company.company_name;
-                            jsonData.children = finalData;
+                            jsonData.children = companyData;
                             list.Add(jsonData);
                         }
                     }
@@ -251,7 +270,7 @@ namespace Bussiness
                     {
                         var jsonData = new JsonDataTemplate<CommonDataEntity<CommonDataEntity>>();
                         jsonData.name = hotWord.hotword;
-                        jsonData.children = finalData;
+                        jsonData.children = hotWordData;
                         list.Add(jsonData);
                     }
                     break;
@@ -259,6 +278,6 @@ namespace Bussiness
 
             return list;
         }
-      
+
     }
 }
