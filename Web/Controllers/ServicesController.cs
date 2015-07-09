@@ -124,7 +124,7 @@ namespace Web.Controllers
                 return JsonConvert.SerializeObject(verifyResult);
             }
 
-            var list = businessService.GetHotWordPercentageList(sourceDateType.dataType, queryDate, sourceDateType.topCount);
+            var list = businessService.GetHotWordChangeTrend(sourceDateType.dataType, queryDate, sourceDateType.topCount);
             var jsonData = JsonConvert.SerializeObject(list);
             return jsonData;
         }

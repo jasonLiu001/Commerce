@@ -131,19 +131,19 @@ namespace Bussiness
         }
 
         /// <summary>
-        /// 热词图
+        /// 热词关注趋势
         /// </summary>
         /// <returns></returns>
-        public List<int> GetHotWordPercentageList(string keyWord, DateTime queryDate, string topCount)
+        public List<int> GetHotWordChangeTrend(string keyWord, DateTime queryDate, string topCount)
         {
             var list = new List<JsonDataTemplate<HotWordPercentage>>();
             var jsonData = new JsonDataTemplate<HotWordPercentage>();
-            var hotWordPercentageList = dataService.GetHotWordPercentageList(keyWord, topCount, queryDate.ToString("yyyy-MM-dd"));
+            var hotWordPercentageList = dataService.GetHotwordRankList(topCount, queryDate.ToString("yyyy-MM-dd"));
 
             List<int> changeTrend = new List<int>();
             foreach (var hotWord in hotWordPercentageList)
             {
-                changeTrend.Add(hotWord.hotword_counts);
+                changeTrend.Add(hotWord.frequency);
             }
 
             return changeTrend;
