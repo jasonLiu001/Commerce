@@ -32,18 +32,6 @@ namespace Bussiness
             }
         }
 
-        public List<JsonDataTemplate<Article>> GetArticleList()
-        {
-            var list = new List<JsonDataTemplate<Article>>();
-            var jsonData = new JsonDataTemplate<Article>();
-            var articleList = dataService.GetArticleList();
-            jsonData.name = "文章列表";
-            jsonData.type = "root";
-            jsonData.children = articleList;
-            list.Add(jsonData);
-            return list;
-        }
-
         public List<JsonDataTemplate<Article>> GetArticleList(int pageIndex, int pageSize)
         {
             var list = new List<JsonDataTemplate<Article>>();
@@ -132,6 +120,18 @@ namespace Bussiness
             return list;
         }
 
+        public List<JsonDataTemplate<Article>> GetArticleList(string keyWord, DateTime queryDate, string topCount)
+        {
+            var list = new List<JsonDataTemplate<Article>>();
+            var jsonData = new JsonDataTemplate<Article>();
+            var articleList = dataService.GetArticleList(keyWord, topCount, queryDate.ToString("yyyy-MM-dd"));
+            jsonData.name = "文章列表";
+            jsonData.type = "root";
+            jsonData.children = articleList;
+            list.Add(jsonData);
+            return list;
+        }
+
         /// <summary>
         /// 热词图
         /// </summary>
@@ -140,7 +140,7 @@ namespace Bussiness
         {
             var list = new List<JsonDataTemplate<HotWordPercentage>>();
             var jsonData = new JsonDataTemplate<HotWordPercentage>();
-            var hotWordPercentageList = dataService.GetHotWordPercentageList(keyWord,topCount,queryDate.ToString("yyyy-MM-dd"));
+            var hotWordPercentageList = dataService.GetHotWordPercentageList(keyWord, topCount, queryDate.ToString("yyyy-MM-dd"));
 
             List<int> changeTrend = new List<int>();
             foreach (var hotWord in hotWordPercentageList)
@@ -156,7 +156,7 @@ namespace Bussiness
         /// </summary>
         /// <returns></returns>
         public SiteRankJsonData GetSiteRankList(string keyWord, DateTime queryDate, string topCount)
-        {           
+        {
             var jsonData = new SiteRankJsonData();
             jsonData.cities = new List<string>();
             jsonData.data = new List<int>();
@@ -166,7 +166,7 @@ namespace Bussiness
             {
                 jsonData.cities.Add(siteRank.site_name);
                 jsonData.data.Add(siteRank.news_counts);
-            }            
+            }
             return jsonData;
         }
 

@@ -15,7 +15,7 @@ namespace Web.Utility
                 return dt;
             }
 
-            return new DateTime(2015,05,27);
+            return DateTime.MinValue;
         }
     }
 }

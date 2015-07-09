@@ -12,13 +12,6 @@ namespace DataAccess
 {
     public class DataService
     {
-        public List<Article> GetArticleList()
-        {
-            var sql = "select top 5 title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left([content],50) from original_news order by same_doc_count desc";
-            var list = Utility.GetListFromDB<Article>(new string[] { "title", "site_name", "url", "media_type", "polarity", "publish_date", "same_doc_count", "address", "[content]" }, sql);
-            return list;
-        }
-
         public List<Article> GetArticleList(int pageIndex, int pageSize)
         {
             var sql = "select title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left([content],50) from (select ROW_NUMBER() over(order by publish_date desc) as rowId,*from original_news) temp where temp.rowId>" + (pageIndex * pageSize).ToString() + " and temp.rowId<" + ((pageIndex + 1) * pageSize).ToString();
@@ -65,6 +58,13 @@ namespace DataAccess
         {
             var sql = "select top " + topCount + " hotword,hotword_counts from b_hotword_percentage order by hotword_counts asc";
             var list = Utility.GetListFromDB<HotWordPercentage>(new string[] { "hotword", "hotword_counts" }, sql);
+            return list;
+        }
+
+        public List<Article> GetArticleList(string keyWord = "hotword", string topCount = "5", string publishDate = "2015-05-27")
+        {
+            var sql = "select top " + topCount + " title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left([content],50) from original_news where datediff(dd,publish_date,'" + publishDate + "')=0 order by same_doc_count desc";
+            var list = Utility.GetListFromDB<Article>(new string[] { "title", "site_name", "url", "media_type", "polarity", "publish_date", "same_doc_count", "address", "[content]" }, sql);
             return list;
         }
 
