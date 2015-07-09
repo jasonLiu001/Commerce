@@ -77,7 +77,7 @@ namespace DataAccess
 
         public List<SiteRank> GetSiteRankList(string keyWord = "hotword", string topCount = "5", string publishDate = "2015-05-27")
         {
-            var sql = "select top " + topCount + " site_name,news_counts from b_site_name_rank order by news_counts desc";
+            var sql = "select top " + topCount + " site_name,news_counts from b_site_name_rank where datediff(dd,publish_date,'" + publishDate + "')=0 order by news_counts desc";
             var list = Utility.GetListFromDB<SiteRank>(new string[] { "site_name", "news_counts" }, sql);
             return list;
         }
