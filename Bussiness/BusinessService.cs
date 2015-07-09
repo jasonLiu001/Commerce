@@ -124,16 +124,10 @@ namespace Bussiness
         /// 获取最新文章
         /// </summary>
         /// <returns></returns>
-        public List<JsonDataTemplate<Article>> GetLatestAtricles()
-        {
-            var list = new List<JsonDataTemplate<Article>>();
-            var jsonData = new JsonDataTemplate<Article>();
-            var LatestArticleList = dataService.GetLatestAtricles();
-            jsonData.name = "最新文章";
-            jsonData.type = "root";
-            jsonData.children = LatestArticleList;
-            list.Add(jsonData);
-            return list;
+        public List<Article> GetLatestAtricles()
+        {           
+            var latestArticleList = dataService.GetLatestAtricles();
+            return latestArticleList;
         }
 
         /// <summary>
@@ -155,16 +149,10 @@ namespace Bussiness
             return changeTrend;
         }
 
-        public List<JsonDataTemplate<Article>> GetArticleRankList(string keyWord, DateTime queryDate, string topCount)
-        {
-            var list = new List<JsonDataTemplate<Article>>();
-            var jsonData = new JsonDataTemplate<Article>();
+        public List<Article> GetArticleRankList(string keyWord, DateTime queryDate, string topCount)
+        {                   
             var articleList = dataService.GetArticleCountRankList(keyWord, topCount, queryDate.ToString("yyyy-MM-dd"));
-            jsonData.name = "报道排名";
-            jsonData.type = "root";
-            jsonData.children = articleList;
-            list.Add(jsonData);
-            return list;
+            return articleList;
         }
 
         /// <summary>
