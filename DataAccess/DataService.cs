@@ -63,7 +63,7 @@ namespace DataAccess
 
         public List<HotWordPercentage> GetHotWordPercentageList(string keyWord = "hotword", string topCount = "5", string publishDate = "2015-05-27")
         {
-            var sql = "select top " + topCount + " hotword,hotword_counts from b_hotword_percentage order by hotword_counts desc";
+            var sql = "select top " + topCount + " hotword,hotword_counts from b_hotword_percentage order by hotword_counts asc";
             var list = Utility.GetListFromDB<HotWordPercentage>(new string[] { "hotword", "hotword_counts" }, sql);
             return list;
         }
