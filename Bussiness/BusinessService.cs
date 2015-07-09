@@ -160,7 +160,7 @@ namespace Bussiness
             var list = new List<JsonDataTemplate<Article>>();
             var jsonData = new JsonDataTemplate<Article>();
             var articleList = dataService.GetArticleCountRankList(keyWord, topCount, queryDate.ToString("yyyy-MM-dd"));
-            jsonData.name = "文章列表";
+            jsonData.name = "报道排名";
             jsonData.type = "root";
             jsonData.children = articleList;
             list.Add(jsonData);
