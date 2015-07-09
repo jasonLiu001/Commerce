@@ -57,6 +57,14 @@ namespace Web.Controllers
             return jsonData;
         }
 
+        // GET: api/Services/GetLatestAtricles
+        public string GetLatestAtricles()
+        {
+            var list = businessService.GetLatestAtricles();
+            var jsonData = JsonConvert.SerializeObject(list);
+            return jsonData;
+        }
+
         // POST: api/Services/GetAtricleRank
         [HttpPost]
         public string GetAtricleRank([FromBody]SourceDataType sourceDateType)
@@ -68,7 +76,7 @@ namespace Web.Controllers
                 return JsonConvert.SerializeObject(verifyResult);
             }
 
-            var list = businessService.GetArticleList(sourceDateType.dataType, queryDate, sourceDateType.topCount);
+            var list = businessService.GetArticleRankList(sourceDateType.dataType, queryDate, sourceDateType.topCount);
             var jsonData = JsonConvert.SerializeObject(list);
             return jsonData;
         }

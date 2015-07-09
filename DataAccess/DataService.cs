@@ -61,7 +61,14 @@ namespace DataAccess
             return list;
         }
 
-        public List<Article> GetArticleList(string keyWord = "hotword", string topCount = "5", string publishDate = "2015-05-27")
+        public List<Article> GetLatestAtricles()
+        {
+            var sql = "select top 10 title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left([content],50) from original_news order by publish_date desc";
+            var list = Utility.GetListFromDB<Article>(new string[] { "title", "site_name", "url", "media_type", "polarity", "publish_date", "same_doc_count", "address", "[content]" }, sql);
+            return list;
+        }
+
+        public List<Article> GetArticleCountRankList(string keyWord = "hotword", string topCount = "5", string publishDate = "2015-05-27")
         {
             var sql = "select top " + topCount + " title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left([content],50) from original_news where datediff(dd,publish_date,'" + publishDate + "')=0 order by same_doc_count desc";
             var list = Utility.GetListFromDB<Article>(new string[] { "title", "site_name", "url", "media_type", "polarity", "publish_date", "same_doc_count", "address", "[content]" }, sql);
