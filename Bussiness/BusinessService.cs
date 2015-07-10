@@ -1,8 +1,8 @@
 ﻿using DataAccess;
-using Model;
 using Model.Business;
 using Model.Constant;
 using Model.DataTemplate;
+using Model.Original;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,10 +32,10 @@ namespace Bussiness
             }
         }
 
-        public List<JsonDataTemplate<Article>> GetArticleList(int pageIndex, int pageSize)
+        public List<CompassJsonDataTemplate<Article>> GetArticleList(int pageIndex, int pageSize)
         {
-            var list = new List<JsonDataTemplate<Article>>();
-            var jsonData = new JsonDataTemplate<Article>();
+            var list = new List<CompassJsonDataTemplate<Article>>();
+            var jsonData = new CompassJsonDataTemplate<Article>();
             var articleList = dataService.GetArticleList(pageIndex, pageSize);
             jsonData.name = "文章列表";
             jsonData.type = "root";
@@ -44,17 +44,17 @@ namespace Bussiness
             return list;
         }
 
-        public List<JsonDataTemplate<CommonDataEntity>> GetCompanyGroupByHotWords()
+        public List<CompassJsonDataTemplate<CompassDataLastChild>> GetCompanyGroupByHotWords()
         {
-            var list = new List<JsonDataTemplate<CommonDataEntity>>();
+            var list = new List<CompassJsonDataTemplate<CompassDataLastChild>>();
             var hotWordsList = dataService.GetHotWordsList();
 
             #region Get Common Data
             var companyList = dataService.GetCompanyList();
-            var data = new List<CommonDataEntity>();
+            var data = new List<CompassDataLastChild>();
             foreach (var company in companyList)
             {
-                var commonData = new CommonDataEntity();
+                var commonData = new CompassDataLastChild();
                 commonData.name = company.company_name;
                 commonData.type = "company";
                 data.Add(commonData);
@@ -63,7 +63,7 @@ namespace Bussiness
 
             foreach (var hotWord in hotWordsList)
             {
-                var jsonData = new JsonDataTemplate<CommonDataEntity>();
+                var jsonData = new CompassJsonDataTemplate<CompassDataLastChild>();
                 jsonData.name = hotWord.hotword;
                 jsonData.type = "root";
                 jsonData.children = data;
@@ -76,10 +76,10 @@ namespace Bussiness
         /// 文章来源分布:论坛、微博、微信等
         /// </summary>
         /// <returns></returns>
-        public List<JsonDataTemplate<CategoryPercentage>> GetCategoryPercentageList()
+        public List<CompassJsonDataTemplate<CategoryPercentage>> GetCategoryPercentageList()
         {
-            var list = new List<JsonDataTemplate<CategoryPercentage>>();
-            var jsonData = new JsonDataTemplate<CategoryPercentage>();
+            var list = new List<CompassJsonDataTemplate<CategoryPercentage>>();
+            var jsonData = new CompassJsonDataTemplate<CategoryPercentage>();
             var categoryPercentageList = dataService.GetCategoryPercentageList();
             jsonData.name = "文章来源分布";
             jsonData.type = "root";
@@ -92,10 +92,10 @@ namespace Bussiness
         /// 情感占比
         /// </summary>
         /// <returns></returns>
-        public List<JsonDataTemplate<EmotionPercentage>> GetEmotionPercentageList()
+        public List<CompassJsonDataTemplate<EmotionPercentage>> GetEmotionPercentageList()
         {
-            var list = new List<JsonDataTemplate<EmotionPercentage>>();
-            var jsonData = new JsonDataTemplate<EmotionPercentage>();
+            var list = new List<CompassJsonDataTemplate<EmotionPercentage>>();
+            var jsonData = new CompassJsonDataTemplate<EmotionPercentage>();
             var emotionPercentageList = dataService.GetEmotionPercentageList();
             jsonData.name = "情感占比";
             jsonData.type = "root";
@@ -108,10 +108,10 @@ namespace Bussiness
         /// 热词图
         /// </summary>
         /// <returns></returns>
-        public List<JsonDataTemplate<HotWordPercentage>> GetHotWordPercentageList()
+        public List<CompassJsonDataTemplate<HotWordPercentage>> GetHotWordPercentageList()
         {
-            var list = new List<JsonDataTemplate<HotWordPercentage>>();
-            var jsonData = new JsonDataTemplate<HotWordPercentage>();
+            var list = new List<CompassJsonDataTemplate<HotWordPercentage>>();
+            var jsonData = new CompassJsonDataTemplate<HotWordPercentage>();
             var hotWordPercentageList = dataService.GetHotWordPercentageList();
             jsonData.name = "热词图";
             jsonData.type = "root";
@@ -136,8 +136,8 @@ namespace Bussiness
         /// <returns></returns>
         public List<int> GetHotWordChangeTrend(string keyWord, DateTime queryDate, string topCount)
         {
-            var list = new List<JsonDataTemplate<HotWordPercentage>>();
-            var jsonData = new JsonDataTemplate<HotWordPercentage>();
+            var list = new List<CompassJsonDataTemplate<HotWordPercentage>>();
+            var jsonData = new CompassJsonDataTemplate<HotWordPercentage>();
             var hotWordPercentageList = dataService.GetHotwordRankList(topCount, queryDate.ToString("yyyy-MM-dd"));
 
             List<int> changeTrend = new List<int>();
@@ -159,9 +159,9 @@ namespace Bussiness
         /// 来源网站排行
         /// </summary>
         /// <returns></returns>
-        public SiteRankJsonData GetSiteRankList(string keyWord, DateTime queryDate, string topCount)
+        public SiteRankJsonDataTemplate GetSiteRankList(string keyWord, DateTime queryDate, string topCount)
         {
-            var jsonData = new SiteRankJsonData();
+            var jsonData = new SiteRankJsonDataTemplate();
             jsonData.cities = new List<string>();
             jsonData.data = new List<int>();
             var siteRankList = dataService.GetSiteRankList(keyWord, topCount, queryDate.ToString("yyyy-MM-dd"));
@@ -179,24 +179,24 @@ namespace Bussiness
         /// </summary>
         /// <param name="keyWord"></param>
         /// <returns></returns>
-        public List<JsonDataTemplate<CommonDataEntity<CommonDataEntity>>> GetCompassDataList(string keyWord, DateTime queryDate, string topCount)
+        public List<CompassJsonDataTemplate<CompassDataFirstChild<CompassDataLastChild>>> GetCompassDataList(string keyWord, DateTime queryDate, string topCount)
         {
-            var list = new List<JsonDataTemplate<CommonDataEntity<CommonDataEntity>>>();
+            var list = new List<CompassJsonDataTemplate<CompassDataFirstChild<CompassDataLastChild>>>();
             var publishDate = queryDate.ToString("yyyy-MM-dd");
             //关键词
-            var hotWordData = new List<CommonDataEntity<CommonDataEntity>>();
+            var hotWordData = new List<CompassDataFirstChild<CompassDataLastChild>>();
             //公司
-            var companyData = new List<CommonDataEntity<CommonDataEntity>>();
+            var companyData = new List<CompassDataFirstChild<CompassDataLastChild>>();
             //人物
-            var peopleData = new List<CommonDataEntity<CommonDataEntity>>();
+            var peopleData = new List<CompassDataFirstChild<CompassDataLastChild>>();
             //地区
-            var areaData = new List<CommonDataEntity<CommonDataEntity>>();
+            var areaData = new List<CompassDataFirstChild<CompassDataLastChild>>();
 
             //构建"children": [{ "name": "", "type": "child" }] }
-            var commonDataEntity = new CommonDataEntity();
+            var commonDataEntity = new CompassDataLastChild();
             commonDataEntity.name = "";
             commonDataEntity.type = "child";
-            var childrenList = new List<CommonDataEntity>();
+            var childrenList = new List<CompassDataLastChild>();
             childrenList.Add(commonDataEntity);
 
             var hotWordsList = dataService.GetHotwordRankList(topCount, publishDate);
@@ -207,7 +207,7 @@ namespace Bussiness
             #region Fill company data.
             foreach (var company in companyList)
             {
-                var commonData = new CommonDataEntity<CommonDataEntity>();
+                var commonData = new CompassDataFirstChild<CompassDataLastChild>();
                 commonData.name = company.company_name;
                 commonData.type = "company";
                 commonData.children = childrenList;
@@ -221,7 +221,7 @@ namespace Bussiness
             #region Fill area data.
             foreach (var area in areaList)
             {
-                var commonData = new CommonDataEntity<CommonDataEntity>();
+                var commonData = new CompassDataFirstChild<CompassDataLastChild>();
                 commonData.name = area.city;
                 commonData.type = "area";
                 commonData.children = childrenList;
@@ -235,7 +235,7 @@ namespace Bussiness
             #region Fill person data.
             foreach (var person in personList)
             {
-                var commonData = new CommonDataEntity<CommonDataEntity>();
+                var commonData = new CompassDataFirstChild<CompassDataLastChild>();
                 commonData.name = person.people;
                 commonData.type = "people";
                 commonData.children = childrenList;
@@ -249,7 +249,7 @@ namespace Bussiness
             #region Fill hotword data
             foreach (var hotword in hotWordsList)
             {
-                var commonData = new CommonDataEntity<CommonDataEntity>();
+                var commonData = new CompassDataFirstChild<CompassDataLastChild>();
                 commonData.name = hotword.hotword;
                 //改变type类型
                 commonData.type = GetCommonDataType(keyWord);
@@ -268,7 +268,7 @@ namespace Bussiness
                         #region Final Data by hotWords
                         foreach (var hotWord in hotWordsList)
                         {
-                            var jsonData = new JsonDataTemplate<CommonDataEntity<CommonDataEntity>>();
+                            var jsonData = new CompassJsonDataTemplate<CompassDataFirstChild<CompassDataLastChild>>();
                             jsonData.name = hotWord.hotword;
                             jsonData.children = hotWordData;
                             list.Add(jsonData);
@@ -280,7 +280,7 @@ namespace Bussiness
                     {
                         foreach (var person in personList)
                         {
-                            var jsonData = new JsonDataTemplate<CommonDataEntity<CommonDataEntity>>();
+                            var jsonData = new CompassJsonDataTemplate<CompassDataFirstChild<CompassDataLastChild>>();
                             jsonData.name = person.people;
                             jsonData.children = peopleData;
                             list.Add(jsonData);
@@ -291,7 +291,7 @@ namespace Bussiness
                     {
                         foreach (var area in areaList)
                         {
-                            var jsonData = new JsonDataTemplate<CommonDataEntity<CommonDataEntity>>();
+                            var jsonData = new CompassJsonDataTemplate<CompassDataFirstChild<CompassDataLastChild>>();
                             jsonData.name = area.city;
                             jsonData.children = areaData;
                             list.Add(jsonData);
@@ -302,7 +302,7 @@ namespace Bussiness
                     {
                         foreach (var company in companyList)
                         {
-                            var jsonData = new JsonDataTemplate<CommonDataEntity<CommonDataEntity>>();
+                            var jsonData = new CompassJsonDataTemplate<CompassDataFirstChild<CompassDataLastChild>>();
                             jsonData.name = company.company_name;
                             jsonData.children = companyData;
                             list.Add(jsonData);
@@ -312,7 +312,7 @@ namespace Bussiness
                 default:
                     foreach (var hotWord in hotWordsList)
                     {
-                        var jsonData = new JsonDataTemplate<CommonDataEntity<CommonDataEntity>>();
+                        var jsonData = new CompassJsonDataTemplate<CompassDataFirstChild<CompassDataLastChild>>();
                         jsonData.name = hotWord.hotword;
                         jsonData.children = hotWordData;
                         list.Add(jsonData);

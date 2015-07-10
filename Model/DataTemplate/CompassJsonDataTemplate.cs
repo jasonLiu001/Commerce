@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.DataTemplate
 {
-    public class JsonDataTemplate<T> where T: new()
+    public class CompassJsonDataTemplate<T> where T: new()
     {
         public string name { get; set; }
 
@@ -48,13 +48,7 @@ namespace Model.DataTemplate
         }
     }
 
-    public class CommonDataEntity
-    {
-        public string name { get; set; }
-        public string type { get; set; }       
-    }
-
-    public class CommonDataEntity<T> where T : new()
+    public class CompassDataFirstChild<T> where T : new()
     {
         public string name { get; set; }
         public string type { get; set; }
@@ -72,8 +66,10 @@ namespace Model.DataTemplate
         }
     }
 
-    public class SiteRankJsonData
+    public class CompassDataLastChild
     {
-        public List<string> cities { get; set; }
-        public List<int> data { get; set; }
-    }}
+        public string name { get; set; }
+        public string type { get; set; }
+    }
+
+}

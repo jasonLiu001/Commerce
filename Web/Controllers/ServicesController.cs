@@ -26,7 +26,7 @@ namespace Web.Controllers
         }
 
         // GET: api/Services/GetArticles
-        public string GetArticles([FromUri] UrlParams urlParams)
+        public string GetArticles([FromUri] PaginationParams urlParams)
         {
             var list = businessService.GetArticleList(urlParams.pageIndex, urlParams.pageSize);
             var jsonData = JsonConvert.SerializeObject(list);
@@ -67,7 +67,7 @@ namespace Web.Controllers
 
         // POST: api/Services/GetAtricleRank
         [HttpPost]
-        public string GetAtricleRank([FromBody]SourceDataType sourceDateType)
+        public string GetAtricleRank([FromBody]PostRequestDataParams sourceDateType)
         {
             var queryDate = Util.ConvertToDateTime(sourceDateType.queryDate);
             var verifyResult = ParamsVerify(sourceDateType, queryDate);
@@ -83,7 +83,7 @@ namespace Web.Controllers
 
         // POST: api/Services/GetSiteRank
         [HttpPost]
-        public string GetSiteRank([FromBody]SourceDataType sourceDateType)
+        public string GetSiteRank([FromBody]PostRequestDataParams sourceDateType)
         {
             var queryDate = Util.ConvertToDateTime(sourceDateType.queryDate);
             var verifyResult = ParamsVerify(sourceDateType, queryDate);
@@ -99,7 +99,7 @@ namespace Web.Controllers
 
         // POST: api/Services/GetCompassData
         [HttpPost]
-        public string GetCompassData([FromBody]SourceDataType sourceDateType)
+        public string GetCompassData([FromBody]PostRequestDataParams sourceDateType)
         {
             var queryDate = Util.ConvertToDateTime(sourceDateType.queryDate);
             var verifyResult = ParamsVerify(sourceDateType, queryDate);
@@ -115,7 +115,7 @@ namespace Web.Controllers
 
         // POST: api/Services/GetChangeTrend
         [HttpPost]
-        public string GetChangeTrend([FromBody]SourceDataType sourceDateType)
+        public string GetChangeTrend([FromBody]PostRequestDataParams sourceDateType)
         {
             var queryDate = Util.ConvertToDateTime(sourceDateType.queryDate);
             var verifyResult = ParamsVerify(sourceDateType, queryDate);
@@ -129,10 +129,10 @@ namespace Web.Controllers
             return jsonData;
         }
 
-        private List<JsonDataTemplate<CommonDataEntity>> ParamsVerify(SourceDataType sourceDateType, DateTime queryDate)
+        private List<CompassJsonDataTemplate<CompassDataLastChild>> ParamsVerify(PostRequestDataParams sourceDateType, DateTime queryDate)
         {
-            List<JsonDataTemplate<CommonDataEntity>> errorList = null;
-            var errorJsonData = new JsonDataTemplate<CommonDataEntity>();
+            List<CompassJsonDataTemplate<CompassDataLastChild>> errorList = null;
+            var errorJsonData = new CompassJsonDataTemplate<CompassDataLastChild>();
             errorJsonData.name = "参数错误";
 
             if (string.IsNullOrEmpty(sourceDateType.dataType))
@@ -149,7 +149,7 @@ namespace Web.Controllers
             }
             else if (queryDate == DateTime.MinValue)
             {
-                errorList = new List<JsonDataTemplate<CommonDataEntity>>();
+                errorList = new List<CompassJsonDataTemplate<CompassDataLastChild>>();
                 errorJsonData.errorMsg = "参数queryDate日期格式错误！";
                 errorList.Add(errorJsonData);
             }
