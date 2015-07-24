@@ -8,12 +8,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccess.MySql;
 
 namespace Bussiness
 {
     public class BusinessService
     {
-        DataService dataService = new DataService();
+        /// <summary>
+        /// 使用MySQL数据驱动
+        /// </summary>
+        MySqlDataService dataService = new MySqlDataService();
 
         private string GetCommonDataType(string keyWord)
         {
