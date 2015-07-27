@@ -14,7 +14,7 @@ namespace DataAccess.MySql
     {
         public List<Article> GetArticleList(int pageIndex, int pageSize)
         {
-            var sql = "select title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left(content,50) from original_news limit 10";
+            var sql = "select title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left(content,50) as content from original_news limit 10";
             var list = Utility.GetListFromMySql<Article>(new string[] { "title", "site_name", "url", "media_type", "polarity", "publish_date", "same_doc_count", "address", "content" }, sql);
             return list;
         }
@@ -63,14 +63,14 @@ namespace DataAccess.MySql
 
         public List<Article> GetLatestAtricles()
         {
-            var sql = "select title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left(content,50) from original_news order by publish_date desc limit 10";
+            var sql = "select title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left(content,50) as content from original_news order by publish_date desc limit 10";
             var list = Utility.GetListFromMySql<Article>(new string[] { "title", "site_name", "url", "media_type", "polarity", "publish_date", "same_doc_count", "address", "content" }, sql);
             return list;
         }
 
         public List<Article> GetArticleCountRankList(string keyWord = "hotword", string topCount = "5", string publishDate = "2015-05-27")
         {
-            var sql = "select title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left(content,50) from original_news where publish_date='" + publishDate + " 00:00:00' order by same_doc_count desc limit " + topCount;
+            var sql = "select title,site_name,url,media_type,polarity,publish_date,same_doc_count,address,left(content,50) as content from original_news where publish_date='" + publishDate + " 00:00:00' order by same_doc_count desc limit " + topCount;
             var list = Utility.GetListFromMySql<Article>(new string[] { "title", "site_name", "url", "media_type", "polarity", "publish_date", "same_doc_count", "address", "content" }, sql);
             return list;
         }
