@@ -17,6 +17,7 @@ namespace Web.Controllers
     {
         BusinessService businessService = new BusinessService();
 
+        #region Unused old API
         // GET: api/Services/GetCompanyGroupByHotWords
         public string GetCompanyGroupByHotWords()
         {
@@ -63,7 +64,8 @@ namespace Web.Controllers
             var list = businessService.GetLatestAtricles();
             var jsonData = JsonConvert.SerializeObject(list);
             return jsonData;
-        }
+        } 
+        #endregion
 
         // POST: api/Services/GetAtricleRank
         [HttpPost]
