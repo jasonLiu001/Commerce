@@ -100,21 +100,21 @@ namespace DataAccess.MySql
 
         public List<PeopleRank> GetPeopleRankList(string topCount = "5", string publishDate = "2015-05-27")
         {
-            var sql = "select distinct people,frequency from b_people_rank where publish_date='" + publishDate + " 00:00:00' order by frequency desc limit" + topCount;
+            var sql = "select distinct people,frequency from b_people_rank where publish_date='" + publishDate + " 00:00:00' order by frequency desc limit " + topCount;
             var list = Utility.GetListFromMySql<PeopleRank>(new string[] { "people", "frequency" }, sql);
             return list;
         }
 
         public List<CompanyRank> GetCompanyRankList(string topCount = "5", string publishDate = "2015-05-27")
         {
-            var sql = "select distinct company_name,frequency from b_company_rank where publish_date='" + publishDate + " 00:00:00' order by frequency desc limit" + topCount;
+            var sql = "select distinct company_name,frequency from b_company_rank where publish_date='" + publishDate + " 00:00:00' order by frequency desc limit " + topCount;
             var list = Utility.GetListFromMySql<CompanyRank>(new string[] { "company_name", "frequency" }, sql);
             return list;
         }
 
         public List<HotwordRank> GetHotwordRankList(string topCount = "5", string publishDate = "2015-05-27")
         {
-            var sql = "select distinct hotword,frequency from b_hotword_rank where publish_date='" + publishDate + " 00:00:00' order by frequency desc limit" + topCount;
+            var sql = "select distinct hotword,frequency from b_hotword_rank where publish_date='" + publishDate + " 00:00:00' order by frequency desc limit " + topCount;
             var list = Utility.GetListFromMySql<HotwordRank>(new string[] { "hotword", "frequency" }, sql);
             return list;
         }
